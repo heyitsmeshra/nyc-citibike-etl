@@ -23,14 +23,3 @@ def fetch_data(url):
             else:
                 print("Maximum retry attempts reached.")
                 return None
-
-
-if __name__ == "__main__":
-    station_info = fetch_data(STATION_INFO_URL)
-    station_status = fetch_data(STATION_STATUS_URL)
-
-    if station_info is not None:
-        print(f"Station Information Records: {len(station_info)}")
-
-    if station_status is not None:
-        print(f"Station Status Records: {len(station_status)}")

@@ -1,10 +1,13 @@
+from datetime import datetime, UTC
+from zoneinfo import ZoneInfo
+
 from extract import fetch_data
 from config import STATION_INFO_URL, STATION_STATUS_URL
 
 
 def transform_data(station_info, station_status):
 
-    status_lookup = {}
+    status_lookup={}
 
     for status in station_status:
         status_lookup[status["station_id"]]=status
@@ -29,20 +32,14 @@ def transform_data(station_info, station_status):
                 "is_installed":status_lookup[station_id]["is_installed"],
                 "is_renting":status_lookup[station_id]["is_renting"],
                 "is_returning":status_lookup[station_id]["is_returning"],
-                "last_reported":status_lookup[station_id]["last_reported"]
+                "last_reported":datetime.fromtimestamp(
+                    status_lookup[station_id]["last_reported"],
+                    tz=UTC
+                ).astimezone(
+                    ZoneInfo("America/New_York")
+                ).replace(tzinfo=None)
             }
 
             transformed_data.append(merged_station)
 
     return transformed_data
-
-
-if __name__=="__main__":
-
-    station_info=fetch_data(STATION_INFO_URL)
-    station_status=fetch_data(STATION_STATUS_URL)
-
-    transformed_data=transform_data(station_info,station_status)
-
-    print(f"Total Records: {len(transformed_data)}")
-    print(transformed_data[0])
