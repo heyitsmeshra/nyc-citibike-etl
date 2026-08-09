@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: citybike-postgres
+
+    environment:
+      POSTGRES_DB: city_bike_db
+      POSTGRES_USER: citybike_user
+      POSTGRES_PASSWORD: citybike_pass
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  etl:
+    build: .
+    container_name: citybike-etl
+
+    depends_on:
+      - postgres
+
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: city_bike_db
+      DB_USER: citybike_user
+      DB_PASSWORD: citybike_pass
+
+    volumes:
+      - ./reports:/app/reports
+
+volumes:
+  postgres_data:

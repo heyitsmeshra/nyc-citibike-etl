@@ -1,4 +1,4 @@
-CREATE TABLE bike_current_status (
+CREATE TABLE IF NOT EXISTS bike_current_status (
     station_id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     short_name TEXT,
@@ -13,7 +13,7 @@ CREATE TABLE bike_current_status (
     last_reported TIMESTAMP NOT NULL
 );
 
-CREATE TABLE bike_status_history (
+CREATE TABLE IF NOT EXISTS bike_status_history (
     station_id TEXT NOT NULL,
     name TEXT NOT NULL,
     short_name TEXT,
