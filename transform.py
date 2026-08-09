@@ -1,8 +1,6 @@
 from datetime import datetime, UTC
 from zoneinfo import ZoneInfo
 
-from extract import fetch_data
-from config import STATION_INFO_URL, STATION_STATUS_URL
 
 
 def transform_data(station_info, station_status):
